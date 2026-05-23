@@ -1,0 +1,7 @@
+AHI IPTV Paired v1.1 TRUE AUDIO SPLIT
+
+Fixed:
+- PiP audio depended on Main volume.
+- Main/PiP audio were not separated deeply enough.
+- Split VLC into two independent Instance objects.
+- Added PiP volume/mute controls directly inside the PiP window.

@@ -1,250 +1,254 @@
 # AHI IPTV Paired Player
 
-AHI IPTV Paired Player is a Windows IPTV player with local-network pairing features for Android and TV devices. It can load M3U/M3U8 IPTV playlists, play channels through an embedded VLC player, manage main/PiP audio separately, and cast selected channels to a TV browser over Wi-Fi.
+**AHI IPTV Paired Player** is a local-network IPTV player system for Windows with Android/TV pairing support.  
+The Windows app can load IPTV M3U/M3U8 playlists, play streams through an embedded VLC player, pair with an Android device, open an Android stream in PiP, and cast selected IPTV streams to a TV receiver page over Wi-Fi.
 
-This project is built for experimenting with a paired IPTV setup where a PC, Android device, and TV can communicate over the same local network.
+> Current release: **v1.1 TRUE AUDIO SPLIT**
 
 ---
 
 ## Features
 
-### Windows IPTV Player
+### Windows PC App
 
 - Embedded VLC video playback inside the app window
 - Load remote M3U / M3U8 playlist URLs
 - Load local M3U / M3U8 playlist files
-- Channel list with search and group filtering
-- Channel metadata overlay when switching channels
-- Fullscreen support with `F11`
-- Separate Main player and PiP player audio
-- Main volume and mute controls
-- PiP volume and mute controls
+- Channel list with group filtering and search
+- Channel metadata overlay on video when changing channels
+- Fullscreen mode with **F11**
+- Wi-Fi TV receiver page served from the PC
+- QR pairing page for Android
+- Send selected channel to Android
+- Receive Android current stream and open it as PC PiP
+- Separate audio handling for main player and PiP player
+- Separate Main Volume and PiP Volume controls
+- Separate Main Mute and PiP Mute controls
 - Optional auto-mute main player when PiP opens
-- GPU decode options:
+- GPU decode settings:
   - `d3d11va`
   - `dxva2`
   - `auto`
   - `none`
-- Network cache settings
+- Network cache setting
 
-### Pairing / Network Features
+### Android / TV Concept
 
-- Local HTTP pairing server
-- QR pairing page for Android
-- Send selected PC channel to Android
-- Receive Android stream state on PC
-- Open Android stream as PiP on PC
-- Wi-Fi TV Cast receiver page
-- Cast selected IPTV stream to a TV browser on the same Wi-Fi
+The Android side is intended to pair with the PC app over Wi-Fi and use the PC server API to exchange channel URLs.  
+The current repo focuses on the Windows app package. The Android folder currently contains notes from the paired-app plan and should be rebuilt/tested separately before release.
 
 ### Wi-Fi TV Cast
 
-The PC app hosts a browser receiver page at:
+The PC app serves a simple TV receiver web page:
 
 ```text
 http://YOUR-PC-IP:8765/tv
+```
 
+Open that page on a Smart TV browser, Android TV browser, Fire TV browser, Xbox Edge, or another device on the same Wi-Fi. Then select a channel in the PC app and click **Cast TV**.
 
-Requirements
-Windows
-Windows 10 or Windows 11
-Python 3.10 or newer
-VLC Media Player desktop version
-Same Wi-Fi/LAN for Android or TV pairing
+This is **URL-based casting**, not desktop mirroring. The TV device plays the IPTV stream URL directly.
 
-VLC should be installed in the default location:
+---
 
+## Folder Structure
+
+```text
+AHI-IPTV-Paired-Player/
+├── Windows/
+│   ├── app/
+│   │   └── ahi_iptv_pc_v1.py
+│   ├── config/
+│   │   └── settings.json
+│   ├── install-requirements.bat
+│   ├── run-windows.bat
+│   ├── build-exe.bat
+│   └── requirements.txt
+├── Android/
+│   └── README_ANDROID.md
+├── Shared/
+│   └── docs/
+├── docs/
+│   ├── USAGE.md
+│   ├── FUNCTIONALITY.md
+│   ├── NETWORK_API.md
+│   └── TROUBLESHOOTING.md
+├── LICENSE
+├── .gitignore
+├── CHANGELOG.md
+└── README.md
+```
+
+---
+
+## Requirements
+
+### Windows
+
+- Windows 10 or Windows 11
+- Python 3.10+
+- VLC Media Player desktop install
+- Same Wi-Fi/LAN for pairing and TV casting
+
+Install VLC from VideoLAN and keep the default path if possible:
+
+```text
 C:\Program Files\VideoLAN\VLC\vlc.exe
+```
 
-Python packages used:
+Python packages are installed by the provided batch file:
 
+```text
 PyQt6
 python-vlc
 qrcode[pil]
-Installation
-1. Download or clone the repo
-git clone https://github.com/YOUR_USERNAME/AHI-IPTV-Paired-Player.git
-cd AHI-IPTV-Paired-Player
+```
 
-Or download the ZIP and extract it.
+---
 
-2. Install VLC
+## Quick Start
 
-Install VLC Media Player from VideoLAN.
+### 1. Install VLC
 
-3. Install Python requirements
+Install the regular desktop version of VLC.
+
+### 2. Install Python requirements
+
+Open the repo folder and run:
+
+```bat
 cd Windows
 install-requirements.bat
-4. Run the app
+```
+
+### 3. Run the app
+
+```bat
 run-windows.bat
+```
 
-The title bar should show:
+The app title should show:
 
+```text
 AHI IPTV Paired Player v1.1 TRUE AUDIO SPLIT
-How to Use
-Load an IPTV playlist
+```
 
-You can load a playlist in two ways.
+### 4. Load an IPTV playlist
 
-Remote M3U URL
-Open the app.
-Go to TV Player.
-Paste your M3U/M3U8 playlist URL into the Load M3U URL box.
-Click Load URL Playlist.
-Local M3U file
-Go to TV Player.
-Click Open M3U.
-Select a .m3u or .m3u8 file.
-Playing Channels
+Use either:
 
-After loading a playlist:
+- **TV Player → Load M3U URL**
+- **M3U / Lists → Load Remote M3U URL**
+- **TV Player → Open M3U**
 
-Channels appear on the left side.
-Use the search box or group filter to find a channel.
-Click a channel to play it.
-The stream plays inside the embedded VLC player.
+Paste your playlist URL or choose a local `.m3u` / `.m3u8` file.
 
-When a channel changes, available M3U metadata appears as an overlay on top of the video.
+### 5. Play a channel
 
-Fullscreen
+Click a channel in the list. The embedded VLC player should begin playback.
 
-Main player:
+---
 
-F11 = Toggle fullscreen
-Esc = Exit fullscreen
+## Fullscreen
 
-You can also use the Fullscreen / F11 button in the app.
+- Press **F11** in the main app to toggle fullscreen.
+- Press **Esc** to exit fullscreen.
+- Use the **Fullscreen / F11** button on the TV Player tab.
+- Use **PiP Fullscreen** for the Android PiP window.
 
-PiP window:
+---
 
-F11 = Toggle PiP fullscreen
-Esc = Exit PiP fullscreen
-Separate Audio / PiP Audio
+## Separate Audio / PiP Audio
 
-Version v1.1 TRUE AUDIO SPLIT uses separate VLC engines for the Main player and PiP player.
+Release **v1.1 TRUE AUDIO SPLIT** separates the VLC backend used for the main player and the PiP player.
 
 This means:
 
-Main volume controls only the main player.
-PiP volume controls only the PiP player.
-Main mute does not mute PiP.
-PiP mute does not mute Main.
-PiP has its own volume slider inside the PiP window.
+- Main volume controls only the main player.
+- PiP volume controls only PiP.
+- Main mute does not mute PiP.
+- PiP mute does not mute Main.
+- PiP has its own volume slider inside the PiP window.
 
 Recommended test:
 
+```text
 1. Play a channel on PC.
 2. Open Android PiP.
 3. Main should auto-mute by default.
 4. Raise PiP volume inside the PiP window.
-5. PiP should be audible even while Main is muted or low.
-Pairing Android
+5. PiP should stay audible even while Main is muted or low.
+```
 
-The PC app exposes a local pairing server.
+---
 
-Default address:
+## Wi-Fi TV Cast Usage
 
-http://YOUR-PC-IP:8765
+1. Start the PC app.
+2. Go to **WiFi TV Cast**.
+3. Copy the TV receiver URL:
 
-To pair:
-
-Start the PC app.
-Go to Pair Android.
-Use the QR code or pairing URL.
-Android should connect to the PC pairing URL.
-Android can receive channel commands and report its current stream back to PC.
-
-The Android side is experimental and should be rebuilt/tested separately before production use.
-
-Wi-Fi TV Cast
-
-To cast a channel to a TV browser:
-
-Start the PC app.
-Go to WiFi TV Cast.
-Copy the TV receiver URL:
+```text
 http://YOUR-PC-IP:8765/tv
-Open that URL on your TV browser or another device on the same Wi-Fi.
-Load your M3U playlist on the PC app.
-Select a channel.
-Click Cast TV.
-Notes
-HLS .m3u8 streams usually work best.
-Some Smart TV browsers cannot play certain IPTV codecs.
-If your TV browser fails, try:
-Android TV / Google TV browser
-Fire TV browser
-Xbox Edge
-Another browser-capable streaming device
-Build EXE
+```
 
-To package the Windows app as an EXE:
+4. Open that URL on your TV browser or another device on the same Wi-Fi.
+5. Load your M3U playlist on the PC app.
+6. Select a channel.
+7. Click **Cast TV**.
 
+### Notes
+
+- HLS `.m3u8` streams are usually the most browser-friendly.
+- Some TVs cannot play certain codecs or raw transport streams.
+- If your Smart TV browser fails, try:
+  - Android TV / Google TV browser
+  - Fire TV browser
+  - Xbox Edge
+  - a browser-capable streaming device
+
+---
+
+## Build EXE
+
+To build a Windows EXE:
+
+```bat
 cd Windows
 build-exe.bat
+```
 
-The output should appear in:
+The output should be placed in:
 
-Windows\dist\AHI_IPTV_PC_v1_1\
-Network API
+```text
+Windows/dist/AHI_IPTV_PC_v1_1/
+```
 
-The PC app starts a local HTTP server on port 8765.
+---
 
-Main endpoints:
+## GitHub Upload
 
-GET  /pair
-GET  /channels
-GET  /state
-GET  /next_command
-GET  /tv
-GET  /cast/state
-POST /command/play_pc
-POST /command/cast_tv
-POST /android_state
+To push this repo to GitHub:
 
-Example pair URL:
+```bat
+git init
+git add .
+git commit -m "Initial release: AHI IPTV Paired Player v1.1"
+git branch -M main
+git remote add origin https://github.com/YOUR_USERNAME/AHI-IPTV-Paired-Player.git
+git push -u origin main
+```
 
-http://192.168.1.25:8765/pair
+---
 
-Example TV receiver URL:
+## Legal / Content Notice
 
-http://192.168.1.25:8765/tv
-Troubleshooting
-Video does not play
+This project is an IPTV player/client. It does **not** include IPTV channels, playlists, copyrighted streams, or subscription content.
 
-Check that VLC is installed:
+Only use playlists and streams you own, created, or are authorized to access.
 
-C:\Program Files\VideoLAN\VLC\vlc.exe
+---
 
-Then run:
+## License
 
-Windows\install-requirements.bat
-
-Try a known-good .m3u8 stream.
-
-PiP has no sound
-Go to Fullscreen + Audio.
-Raise PiP Player Volume.
-Click Unmute PiP.
-Check the PiP window’s own volume slider.
-Check Windows Volume Mixer.
-TV Cast page opens but video does not play
-
-Your TV browser may not support that stream codec. Try a different .m3u8 stream or use Android TV, Fire TV, or Xbox Edge.
-
-Android cannot connect
-
-Check:
-
-- PC and Android are on the same Wi-Fi
-- Windows Firewall allows Python
-- The PC pairing URL opens from the Android browser
-
-Test from Android browser:
-
-http://YOUR-PC-IP:8765/pair
-Legal Notice
-
-This app does not include IPTV channels, playlists, paid streams, or copyrighted content.
-
-Only use playlists and streams that you own, created, or are authorized to access.
+MIT License. See [LICENSE](LICENSE).

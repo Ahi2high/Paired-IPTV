@@ -1,0 +1,12 @@
+{
+  "network_cache_ms": 1500,
+  "hardware_accel": "d3d11va",
+  "main_volume": 80,
+  "pip_volume": 35,
+  "main_muted": false,
+  "pip_muted": false,
+  "auto_mute_main_when_pip": true,
+  "pc_server_port": 8765,
+  "last_playlist_url": "",
+  "last_playlist_path": ""
+}
