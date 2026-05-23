@@ -3,6 +3,8 @@
 **AHI IPTV Paired Player** is a local-network IPTV player system for Windows with Android/TV pairing support.  
 The Windows app can load IPTV M3U/M3U8 playlists, play streams through an embedded VLC player, pair with an Android device, open an Android stream in PiP, and cast selected IPTV streams to a TV receiver page over Wi-Fi.
 
+This app is in conjuction with[https://github.com/Ahi2high/Paired-IPTV-Android]
+
 > Current release: **v1.1 TRUE AUDIO SPLIT**
 
 ---
